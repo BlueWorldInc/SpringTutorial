@@ -5,7 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.hateoas.IanaLinkRelations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,9 +63,29 @@ class EmployeeController {
 
 	// end::get-aggregate-root[]
 
+	// @PostMapping("/employees")
+	// Employee newEmployee(@RequestBody Employee newEmployee) {
+	// 	return repository.save(newEmployee);
+	// }
+
 	@PostMapping("/employees")
-	Employee newEmployee(@RequestBody Employee newEmployee) {
-		return repository.save(newEmployee);
+	ResponseEntity<?> newEmployee(@RequestBody Employee newEmployee) {
+		EntityModel<Employee> entityModel = assembler.toModel(repository.save(newEmployee));
+
+		return ResponseEntity
+			.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+			.body(entityModel);
+	}
+
+	@GetMapping("/yoplait")
+	Employee e() {
+		Employee e = new Employee("alfred", "pazanboa", "voleur de poule");
+		return repository.save(e);
+	}
+
+	@GetMapping("/yolangoa")
+	String a() {
+		return "Des Iguanes ? Ou ca des Ignuanes ??? o_O";
 	}
 
 	@GetMapping("/employees/{id}")
@@ -88,21 +109,47 @@ class EmployeeController {
 
 	// }
 
+	// @PutMapping("/employees/{id}")
+	// Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+	// 	return repository.findById(id).map(employee -> {
+	// 		employee.setName(newEmployee.getName());
+	// 		employee.setRole(newEmployee.getRole());
+	// 		return repository.save(employee);
+	// 	}).orElseGet(() -> {
+	// 		newEmployee.setId(id);
+	// 		return repository.save(newEmployee);
+	// 	});
+	// }
+
 	@PutMapping("/employees/{id}")
-	Employee replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
-		return repository.findById(id).map(employee -> {
-			employee.setName(newEmployee.getName());
-			employee.setRole(newEmployee.getRole());
-			return repository.save(employee);
-		}).orElseGet(() -> {
-			newEmployee.setId(id);
-			return repository.save(newEmployee);
-		});
+	ResponseEntity<?> replaceEmployee(@RequestBody Employee newEmployee, @PathVariable Long id) {
+		Employee updatedEmployee = repository.findById(id)
+			.map(employee -> {
+				employee.setName(newEmployee.getName());
+				employee.setRole(newEmployee.getRole());
+				return repository.save(employee);
+			}) //
+			.orElseGet(() -> {
+				newEmployee.setId(id);
+				return repository.save(newEmployee);
+			});
+
+		EntityModel<Employee> entityModel = assembler.toModel(updatedEmployee);
+
+		return ResponseEntity //
+			.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
+			.body(entityModel);
 	}
 
-	@DeleteMapping("/employees/{id}")
-	void DeleteMapping(@PathVariable Long id) {
+	// @DeleteMapping("/employees/{id}")
+	// void DeleteMapping(@PathVariable Long id) {
+	// 	repository.deleteById(id);
+	// }
+
+	ResponseEntity<?> deleteEmployee(@PathVariable Long id) {
 		repository.deleteById(id);
+
+		return ResponseEntity.noContent().build();
 	}
 
 }
