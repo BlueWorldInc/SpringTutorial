@@ -1,5 +1,6 @@
 package com.payroll.country;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,10 +10,9 @@ import javax.persistence.Id;
 public class Region {
 	
 	private @Id @GeneratedValue(strategy=GenerationType.IDENTITY) long id;
-	private String region_code;
-	private String country_code;
-	private String region_name;
-
+	private @Column(name = "region_code") String regionCode;
+	private @Column(name = "country_code") String countryCode;
+	private @Column(name = "region_name") String regionName;
 
 	public long getId() {
 		return this.id;
@@ -22,29 +22,28 @@ public class Region {
 		this.id = id;
 	}
 
-	public String getRegion_code() {
-		return this.region_code;
+	public String getRegionCode() {
+		return this.regionCode;
 	}
 
-	public void setRegion_code(String region_code) {
-		this.region_code = region_code;
+	public void setRegionCode(String regionCode) {
+		this.regionCode = regionCode;
 	}
 
-	public String getCountry_code() {
-		return this.country_code;
+	public String getCountryCode() {
+		return this.countryCode;
 	}
 
-	public void setCountry_code(String country_code) {
-		this.country_code = country_code;
+	public void setCountryCode(String countryCode) {
+		this.countryCode = countryCode;
 	}
 
-	public String getRegion_name() {
-		return this.region_name;
+	public String getRegionName() {
+		return this.regionName;
 	}
 
-	public void setRegion_name(String region_name) {
-		this.region_name = region_name;
+	public void setRegionName(String regionName) {
+		this.regionName = regionName;
 	}
-
 
 }

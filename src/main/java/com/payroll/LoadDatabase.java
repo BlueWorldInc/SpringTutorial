@@ -13,15 +13,15 @@ class LoadDatabase {
 	@Bean
 	CommandLineRunner initDatabase(EmployeeRepository employeeRepository, OrderRepository orderRepository) {
 		return args -> {
-			employeeRepository.save(new Employee("Bilbo", "Baggins", "Burglar"));
-			employeeRepository.save(new Employee("Frodo", "Baggins", "Thief"));
-			employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
+			// employeeRepository.save(new Employee("Bilbo", "Baggins", "Burglar"));
+			// employeeRepository.save(new Employee("Frodo", "Baggins", "Thief"));
+			// employeeRepository.findAll().forEach(employee -> log.info("Preloaded " + employee));
 
-			orderRepository.save(new Order("Macbook Pro", Status.COMPLETED));
-			orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
-			orderRepository.findAll().forEach(order -> {
-				log.info("Preloaded " + order);
-			});
+			// orderRepository.save(new Order("Macbook Pro", Status.COMPLETED));
+			// orderRepository.save(new Order("iPhone", Status.IN_PROGRESS));
+			// orderRepository.findAll().forEach(order -> {
+			// 	log.info("Preloaded " + order);
+			// });
 
 		};
 	}
