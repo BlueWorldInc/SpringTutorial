@@ -1,10 +1,12 @@
 package com.payroll;
 
+import com.payroll.country.CountryRegion;
+
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.core.mapping.ExposureConfiguration;
+// import org.springframework.data.rest.core.mapping.ExposureConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerDelegate;
-import org.springframework.http.HttpMethod;
+// import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerDelegate;
+// import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
@@ -25,6 +27,7 @@ public class WebConfigREST implements RepositoryRestConfigurer {
         //   httpMethods.disable(HttpMethod.PATCH));
 		// c.addMapping("/**").allowedOrigins("http://localhost:8080");
 		c.addMapping("/**").allowedOrigins("*").allowedHeaders("*");
+		config.exposeIdsFor(CountryRegion.class);
     }
 
 }

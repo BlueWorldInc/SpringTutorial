@@ -1,4 +1,4 @@
-package com.payroll;
+package com.payroll.country;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,6 @@ public class CountryRegion {
 	@Column(name = "countryregioncode")
 	private @Id @GeneratedValue String id;
 	private String name;
-
 
 	public String getId() {
 		return this.id;
